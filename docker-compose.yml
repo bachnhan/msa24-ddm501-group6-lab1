@@ -1,0 +1,22 @@
+# =============================================================================
+# Docker Compose configuration for Movie Rating Prediction API
+# DDM501 - Lab 1: First ML Product
+services:
+  # ---------------------------------------------------------------------------
+  # API service
+  # ---------------------------------------------------------------------------
+  
+  api:
+    image: movie-api
+    # Mapping to 8080 to avoid common port 8000 conflicts on macOS (e.g. AirPlay).
+    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+    ports:
+      - "8080:8000"
+    volumes:
+      - ./models:/app/models
+    environment:
+      - MODEL_PATH=/app/models/svd_model.pkl
+    restart: unless-stopped
+
+
+
